@@ -18,5 +18,11 @@ from theboxapp import views
 
 urlpatterns = [
     path('', views.home),
-    path('wwlogin/', views.login)
+
+    # auth
+    path('signup/', views.signupuser, name='signupuser'), 
+
+    # thebox
+    path('homepagestu/', views.homepagestudent, name='homepagestudent'), 
+
 ]
