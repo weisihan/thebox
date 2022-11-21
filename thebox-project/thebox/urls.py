@@ -18,5 +18,12 @@ from theboxapp import views
 
 urlpatterns = [
     path('', views.home),
-    path('wwlogin/', views.login)
+    path('wwlogin/', views.login),
+    #below is for students page
+    path('checkmealplan', views.checkmealplan),
+    path('donatemealplan',views.donatemealplan),
+    path('studentlogin',views.studentlogin),
+    path('registermealplan',views.registermealplan),
+    path('studentthebox',views.stuentthebox),
+    path('studenthome',views.studenthome),
 ]
