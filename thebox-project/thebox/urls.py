@@ -17,25 +17,31 @@ from django.urls import path
 from theboxapp import views
 
 urlpatterns = [
-<<<<<<< HEAD
     path('', views.home),
     path('wwlogin/', views.login),
-    #below is for students page
+    # below is for students page
     path('checkmealplan', views.checkmealplan),
-    path('donatemealplan',views.donatemealplan),
-    path('studentlogin',views.studentlogin),
-    path('registermealplan',views.registermealplan),
-    path('studentthebox',views.stuentthebox),
-    path('studenthome',views.studenthome),
-=======
+    path('donatemealplan', views.donatemealplan),
+    path('studentlogin', views.studentlogin),
+    path('registermealplan', views.registermealplan),
+    path('studentthebox', views.stuentthebox),
+    path('studenthome', views.studenthome),
     # auth
-    path('signup/', views.signupuser, name='signupuser'), 
-    path('logout/', views.logoutuser, name='logoutuser'), 
-    path('login/', views.loginuser, name='loginuser'), 
+    path('signup/', views.signupuser, name='signupuser'),
+    path('logout/', views.logoutuser, name='logoutuser'),
+    path('login/', views.loginuser, name='loginuser'),
 
     # thebox
-    path('homepagestu/', views.homepagestudent, name='homepagestudent'), 
-    path('home/', views.homepage, name='homepage'), 
+    path('homepagestu/', views.homepagestudent, name='homepagestudent'),
+    path('home/', views.homepage, name='homepage'),
 
->>>>>>> main
+    # staff
+    path('stafflogin', views.stafflogin, name='stafflogin'),
+    path('staffhome', views.staffhome, name='staffhome'),
+    path('staffupdatebox', views.staffUpdateBox, name='staffUpdateBox'),
+    path('staffdisplaydonate', views.staffDisplayDonate, name='staffDisplayDonate'),
+    path('staffdisplayfeedback', views.staffDisplayFeedback,
+         name='staffDisplayFeedback'),
+    path('studentfeedback', views.studentFeedback, name='studentFeedback'),
+
 ]
