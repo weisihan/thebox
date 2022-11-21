@@ -43,3 +43,27 @@ def homepagestudent(request):
 
 def loginuser(request):
     return HttpResponse('placeholder')
+
+
+def stafflogin(request):
+    return render(request, 'theboxapp/stafflogin.html')
+
+
+def staffhome(request):
+    return render(request, 'theboxapp/staffhome.html')
+
+
+def staffUpdateBox(request):
+    return render(request, 'theboxapp/staffUpdateBox.html')
+
+
+def staffDisplayDonate(request):
+    return render(request, 'theboxapp/staffDisplayDonate.html')
+
+
+def staffDisplayFeedback(request):
+    return render(request, 'theboxapp/staffDisplayFeedback.html')
+
+
+def studentFeedback(request):
+    return render(request, 'theboxapp/studentFeedback.html')
