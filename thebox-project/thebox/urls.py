@@ -38,10 +38,10 @@ urlpatterns = [
     # staff
     path('stafflogin', views.stafflogin, name='stafflogin'),
     path('staffhome', views.staffhome, name='staffhome'),
-    path('staffupdatebox', views.staffUpdateBox, name='staffUpdateBox'),
-    path('staffdisplaydonate', views.staffDisplayDonate, name='staffDisplayDonate'),
-    path('staffdisplayfeedback', views.staffDisplayFeedback,
-         name='staffDisplayFeedback'),
-    path('studentfeedback', views.studentFeedback, name='studentFeedback'),
+    path('staffupdatebox', views.staffupdatebox, name='staffupdatebox'),
+    path('staffdisplaydonate', views.staffdisplaydonate, name='staffdisplaydonate'),
+    path('staffdisplayfeedback', views.staffdisplayfeedback,
+         name='staffdisplayfeedback'),
+    path('studentfeedback', views.studentfeedback, name='studentfeedback'),
 
 ]

@@ -82,17 +82,17 @@ def staffhome(request):
     return render(request, 'theboxapp/staffhome.html')
 
 
-def staffUpdateBox(request):
-    return render(request, 'theboxapp/staffUpdateBox.html')
+def staffupdatebox(request):
+    return render(request, 'theboxapp/staffupdatebox.html')
 
 
-def staffDisplayDonate(request):
-    return render(request, 'theboxapp/staffDisplayDonate.html')
+def staffdisplaydonate(request):
+    return render(request, 'theboxapp/staffdisplaydonate.html')
 
 
-def staffDisplayFeedback(request):
-    return render(request, 'theboxapp/staffDisplayFeedback.html')
+def staffdisplayfeedback(request):
+    return render(request, 'theboxapp/staffdisplayfeedback.html')
 
 
-def studentFeedback(request):
-    return render(request, 'theboxapp/studentFeedback.html')
+def studentfeedback(request):
+    return render(request, 'theboxapp/studentfeedback.html')
