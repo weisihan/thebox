@@ -17,12 +17,13 @@ from django.urls import path
 from theboxapp import views
 
 urlpatterns = [
-    path('', views.home),
-
     # auth
     path('signup/', views.signupuser, name='signupuser'), 
+    path('logout/', views.logoutuser, name='logoutuser'), 
+    path('login/', views.loginuser, name='loginuser'), 
 
     # thebox
     path('homepagestu/', views.homepagestudent, name='homepagestudent'), 
+    path('home/', views.homepage, name='homepage'), 
 
 ]

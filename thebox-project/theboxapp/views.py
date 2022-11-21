@@ -3,9 +3,12 @@ from django.http import HttpResponse
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.db import IntegrityError
-from django.contrib.auth import login
+from django.contrib.auth import login, logout 
 
 # Create your views here.
+
+def homepage(request):
+    return render(request, 'theboxapp/home.html')
 
 def signupuser(request):
     if request.method == "GET":
@@ -23,6 +26,12 @@ def signupuser(request):
         else:
             # tell the user that 2 passwords don't match
             return render(request, 'theboxapp/signupuser.html', {'form': UserCreationForm(), 'error': 'Passwords do not match'})
+
+def logoutuser(request):
+    if request.method == "POST":
+        logout(request)
+        return redirect()
+        
 
 def homepagestudent(request):
      return render(request, 'theboxapp/homepagestudent.html')
