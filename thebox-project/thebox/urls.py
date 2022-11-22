@@ -17,8 +17,10 @@ from django.urls import path
 from theboxapp import views
 
 urlpatterns = [
-    path('', views.home),
-    path('wwlogin/', views.login),
+    # path('', views.home),
+    #REAL HOME
+     path('', views.home),
+    # path('wwlogin/', views.login),
     # below is for students page
     path('checkmealplan', views.checkmealplan),
     path('donatemealplan', views.donatemealplan),
@@ -29,7 +31,7 @@ urlpatterns = [
     # auth
     path('signup/', views.signupuser, name='signupuser'),
     path('logout/', views.logoutuser, name='logoutuser'),
-    path('login/', views.loginuser, name='loginuser'),
+    # path('login/', views.loginuser, name='loginuser'),
 
     # thebox
     path('homepagestu/', views.homepagestudent, name='homepagestudent'),

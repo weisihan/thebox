@@ -8,8 +8,9 @@ from django.contrib.auth import login, logout
 # Create your views here.
 
 
-def home(requestion):
-    return HttpResponse('HOME HOME')
+def home(request):
+    #rmb to create a real home page 
+    return render(request, 'theboxapp/generalhome.html')
 
 
 def homepage(request):
@@ -45,8 +46,8 @@ def homepagestudent(request):
     return render(request, 'theboxapp/homepagestudent.html')
 
 
-def loginuser(request):
-    return HttpResponse('placeholder')
+# def loginuser(request):
+#     return HttpResponse('placeholder')
 
 
 # below are for students:
