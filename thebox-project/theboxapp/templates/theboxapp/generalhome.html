@@ -1,0 +1,79 @@
+<!doctype html>
+{% load static %}
+<html lang="en-us">
+	<head>
+		<meta charset="utf-8">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
+		<title>Student home</title>
+    <style type="text/css">
+    @media screen and (min-width:961px){
+      .content{
+        width:16.66%;
+      }
+    }
+    @media screen and (min-width:481px) and (max-width:960px){
+      .content{
+        width:33.33%;
+      }
+    }
+    @media screen and (max-width:480px){
+      .content{
+        width:90%;
+      }
+    }
+    /* body{
+      background-image:url("background.jpg");
+    } */
+    #header{
+      width: 100%;
+      height:30px;
+      background-color:#B8E3F9;
+      color:white;
+    }
+    .content{
+      box-sizing:border-box;
+      float:left;
+      height:250px;
+      text-align:center;
+      color:#0671B7;
+      font-family: 'Roboto', sans-serif;
+    }
+    .blueCloud{
+      width:200px;
+      height:200px;
+      display:inline-block;
+    }
+    .pinkCloud{
+      width:200px;
+      height:200px;
+      display:inline-block;
+    }
+    #A:hover{
+      background-color: #FDF4F9;
+      color:#E3BCF1;
+    }
+    #B:hover{
+      background-color: #E1F0FA;
+      color:#FFA9AA;
+    }
+    </style>
+	</head>
+	<body>
+		<h1 id="header">Home: Welcome to The Box!</h1>
+    <div id="container">
+      <div id="B" class="content">
+        <a href="studentlogin" target="_blank">
+       
+        <p>Student Log In</p>
+        </a>
+      </div>
+      <div id="A" class="content">
+        <a href="stafflogin" target="_blank">
+        
+        <p>Staff Log In</p>
+        </a>
+      </div>
+    </div>
+	</body>
+
+</html>
