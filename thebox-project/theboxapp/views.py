@@ -9,7 +9,7 @@ from django.contrib.auth import login, logout
 
 
 def home(request):
-    #rmb to create a real home page 
+    # rmb to create a real home page
     return render(request, 'theboxapp/generalhome.html')
 
 
@@ -44,10 +44,6 @@ def logoutuser(request):
 
 def homepagestudent(request):
     return render(request, 'theboxapp/homepagestudent.html')
-
-
-# def loginuser(request):
-#     return HttpResponse('placeholder')
 
 
 # below are for students:

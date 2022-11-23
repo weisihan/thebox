@@ -17,33 +17,25 @@ from django.urls import path
 from theboxapp import views
 
 urlpatterns = [
-    # path('', views.home),
-    #REAL HOME
-     path('', views.home),
-    # path('wwlogin/', views.login),
-    # below is for students page
-    path('checkmealplan', views.checkmealplan),
-    path('donatemealplan', views.donatemealplan),
-    path('studentlogin', views.studentlogin),
-    path('registermealplan', views.registermealplan),
-    path('studentthebox', views.stuentthebox),
-    path('studenthome', views.studenthome),
-    # auth
+    # REAL HOME
+    path('', views.home),
+    # AUTH
     path('signup/', views.signupuser, name='signupuser'),
     path('logout/', views.logoutuser, name='logoutuser'),
-    # path('login/', views.loginuser, name='loginuser'),
-
-    # thebox
-    path('homepagestu/', views.homepagestudent, name='homepagestudent'),
-    path('home/', views.homepage, name='homepage'),
-
-    # staff
+    # STUDENT
+    path('studentlogin', views.studentlogin),
+    path('studenthome', views.studenthome),
+    path('checkmealplan', views.checkmealplan),
+    path('donatemealplan', views.donatemealplan),
+    path('registermealplan', views.registermealplan),
+    path('studentthebox', views.stuentthebox),
+    path('studentfeedback', views.studentfeedback, name='studentfeedback'),
+    # STAFF
     path('stafflogin', views.stafflogin, name='stafflogin'),
     path('staffhome', views.staffhome, name='staffhome'),
     path('staffupdatebox', views.staffupdatebox, name='staffupdatebox'),
     path('staffdisplaydonate', views.staffdisplaydonate, name='staffdisplaydonate'),
     path('staffdisplayfeedback', views.staffdisplayfeedback,
          name='staffdisplayfeedback'),
-    path('studentfeedback', views.studentfeedback, name='studentfeedback'),
 
 ]
