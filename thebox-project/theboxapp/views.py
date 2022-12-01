@@ -4,6 +4,10 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django.db import IntegrityError
 from django.contrib.auth import login, logout
+from django.contrib.auth import forms  
+from django.contrib import messages  
+from django.contrib.auth.forms import UserCreationForm  
+from .forms import CustomUserCreationForm  
 
 # Create your views here.
 
@@ -17,23 +21,17 @@ def homepage(request):
     return render(request, 'theboxapp/home.html')
 
 
-def signupuser(request):
-    if request.method == "GET":
-        return render(request, 'theboxapp/signupuser.html', {'form': UserCreationForm()})
-    else:
-        if request.POST['password1'] == request.POST['password2']:
-            # create a new user
-            try:
-                user = User.objects.create_user(
-                    request.POST['username'], password=request.POST['password1'])
-                user.save()
-                login(request, user)
-                return redirect('homepagestudent')
-            except IntegrityError:
-                return render(request, 'theboxapp/signupuser.html', {'form': UserCreationForm(), 'error': 'Username has already been taken'})
-        else:
-            # tell the user that 2 passwords don't match
-            return render(request, 'theboxapp/signupuser.html', {'form': UserCreationForm(), 'error': 'Passwords do not match'})
+def signupuser(request):  
+    if request.POST == 'POST':  
+        form = CustomUserCreationForm()  
+        if form.is_valid():  
+            form.save()  
+    else:  
+        form = CustomUserCreationForm()  
+    context = {  
+        'form':form  
+    }  
+    return render(request, 'theboxapp/signupuser.html', context) 
 
 
 def logoutuser(request):
