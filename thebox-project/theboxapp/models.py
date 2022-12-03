@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 
 class Account(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    password = models.CharField(max_length=200, default = 'none')
     who = models.CharField(
         max_length=7,
         # ('actual value', 'human readable value')
@@ -16,6 +17,8 @@ class Account(models.Model):
 
     def __str__(self):
         return self.user.username
+
+    
 
 
 class DonatedMealSwipe(models.Model):

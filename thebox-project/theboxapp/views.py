@@ -1,9 +1,13 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
+from .models import Account
+from .backends import AccountBackend
 from django.db import IntegrityError
 from django.contrib.auth import login, logout
+from django.contrib.auth import forms  
+from django.contrib import messages  
 
 # Create your views here.
 
@@ -18,22 +22,7 @@ def homepage(request):
 
 
 def signupuser(request):
-    if request.method == "GET":
-        return render(request, 'theboxapp/signupuser.html', {'form': UserCreationForm()})
-    else:
-        if request.POST['password1'] == request.POST['password2']:
-            # create a new user
-            try:
-                user = User.objects.create_user(
-                    request.POST['username'], password=request.POST['password1'])
-                user.save()
-                login(request, user)
-                return redirect('homepagestudent')
-            except IntegrityError:
-                return render(request, 'theboxapp/signupuser.html', {'form': UserCreationForm(), 'error': 'Username has already been taken'})
-        else:
-            # tell the user that 2 passwords don't match
-            return render(request, 'theboxapp/signupuser.html', {'form': UserCreationForm(), 'error': 'Passwords do not match'})
+    return render(request, 'theboxapp/signupuser.html')
 
 
 def logoutuser(request):
@@ -57,6 +46,23 @@ def donatemealplan(request):
 
 def registermealplan(request):
     return render(request, 'theboxapp/registermealplan.html')
+
+
+def userlogin(request):
+    if request.method == 'GET':
+        return render(request, 'theboxapp/userlogin.html', {'form':AuthenticationForm()})
+    else:
+        username = request.POST['username']
+        password = request.POST['password']
+        user = AccountBackend.authenticate(username, password)
+        if user is None:
+            return render(request, 'theboxapp/userlogin.html', {'form':AuthenticationForm(), 'error':'Username and password did not match'})
+        else:
+            login(request, user[0])
+            if user[1] == 'staff':
+                return redirect('staffhome')
+            elif user[1] == 'student':
+                return redirect('studenthome')    
 
 
 def studentlogin(request):
