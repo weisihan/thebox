@@ -27,18 +27,18 @@ urlpatterns = [
     path('login/', views.userlogin, name='userlogin'), 
     # STUDENT
     path('studentlogin/', views.studentlogin),
-    path('studenthome/', views.studenthome),
-    path('checkmealplan/', views.checkmealplan),
-    path('donatemealplan/', views.donatemealplan),
-    path('registermealplan/', views.registermealplan),
-    path('studentthebox/', views.stuentthebox),
-    path('studentfeedback/', views.studentfeedback, name='studentfeedback'),
+    path('studenthome/', views.studenthome,name='studenthome'),
+    path('studenthome/checkmealplan/', views.checkmealplan),
+    path('studenthome/donatemealplan/', views.donatemealplan),
+    path('studenthome/registermealplan/', views.registermealplan),
+    path('studenthome/studentthebox/', views.stuentthebox),
+    path('studenthome/studentfeedback/', views.studentfeedback, name='studentfeedback'),
     # STAFF
     path('stafflogin/', views.stafflogin, name='stafflogin'),
     path('staffhome/', views.staffhome, name='staffhome'),
-    path('staffupdatebox/', views.staffupdatebox, name='staffupdatebox'),
-    path('staffdisplaydonate/', views.staffdisplaydonate, name='staffdisplaydonate'),
-    path('staffdisplayfeedback/', views.staffdisplayfeedback,
+    path('staffhome/staffupdatebox/', views.staffupdatebox, name='staffupdatebox'),
+    path('staffhome/staffdisplaydonate/', views.staffdisplaydonate, name='staffdisplaydonate'),
+    path('staffhome/staffdisplayfeedback/', views.staffdisplayfeedback,
          name='staffdisplayfeedback'),
 
 ]

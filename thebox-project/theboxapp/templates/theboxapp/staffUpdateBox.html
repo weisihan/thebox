@@ -1,11 +1,13 @@
+{% block content %}
 <h1>
     Enter the amount of each box category. 
 </h1>
-<form>
+<form action="" method="POST">
+    {% csrf_token %}
     <label for="meat">
         Meat:
     </label>
-    <br>
+    <br> 
     <input type="text" id="meat" name="meat">
     <br>
     <label for="vegeterian">
@@ -22,3 +24,4 @@
     <br>
     <input type="submit" value="Submit">
 </form>
+{% endblock %}
