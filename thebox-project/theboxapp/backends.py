@@ -8,7 +8,7 @@ from theboxapp.models import Account
 
 class AccountBackend(ModelBackend):
 
-    def authenticate(username, password):
+    def authenticate(username, password, backend='theboxapp.backends.AccountBackend'):
         accounts = Account.objects.all() 
         for account in accounts:
             if account.user.username == username and account.password == password:

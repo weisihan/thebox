@@ -58,7 +58,7 @@ def userlogin(request):
         if user is None:
             return render(request, 'theboxapp/userlogin.html', {'form':AuthenticationForm(), 'error':'Username and password did not match'})
         else:
-            login(request, user[0])
+            login(request, user[0], backend='theboxapp.backends.AccountBackend')
             if user[1] == 'staff':
                 return redirect('staffhome')
             elif user[1] == 'student':
