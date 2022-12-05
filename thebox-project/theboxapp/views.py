@@ -71,7 +71,23 @@ def donatemealplan(request):
 
 
 def registermealplan(request):
-    return render(request, 'theboxapp/registermealplan.html')
+    print(request.user.account.mealSwipNum)
+    if request.method == 'POST':
+        acc = request.user.account
+        meal = acc.mealSwipNum
+        setattr(acc, 'mealSwipNum', meal+1)
+        acc.save()
+        print(request.user.account.mealSwipNum)
+        allDonated = DonatedMealSwipe.objects.all()
+        print(len(allDonated))
+        delete = DonatedMealSwipe.objects.all()[:1]
+        for one in delete:
+            one.delete()
+        print(len(DonatedMealSwipe.objects.all()))
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    # return render(request, 'theboxapp/registermealplan.html')
+    else:
+        return render(request, 'theboxapp/registermealplan.html')
 
 
 def userlogin(request):

@@ -1,15 +1,12 @@
-<!doctype html>
-<!-- this is a file for student registering for meal plans-->
-<html>
-    <head>
-    </head>
-    <body>
-        <h2>
-            Enter the amount of meal plans needed(in integer): 
-        </h2>
-        <form>
-            <textarea id="amountmeal" name="amountmeal"></textarea>
-        <input type="submit"  value="Submit">
-    </form>
-    </body>
-</html>
+{% block content %}
+
+<h1>
+    Register for One Free Mealswipe
+</h1>
+
+<form method="POST">
+    {% csrf_token %}
+    <input type="submit" value="Register">
+</form>
+
+{% endblock %}
