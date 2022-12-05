@@ -1,12 +1,17 @@
 {% load static %}
 {% block content %}
-<!doctype html>
-<h1>The Box</h1>
-<h2>You can register for the box and cancel registered box here</h2>
-<p>You can only claim one the box per day, and it is first come first serve</p>
+<h1>
+    Student Register the Box
+    </h1>
+<h2>
+   Click Submit to Get the Box! <br><br>
+   There is only limited number of boxes per day! It is first come first serve. <br><br>
+   Your registered box is only valid for today and will expire after today.
+   <br><br>You should not register if you are allergic anything in the  nutrition facts. The boxes are surprise bags and cannot be chose.
+</h2>
 <form action="" method="POST">
-       <button type="submit" id="registerbox" name="registerbox">REGISTER</button>
-       <button type="submit" id="cancelbox" name="cancelbox">CANCEL BOX</button>
-</form> 
-
-{% endlock%}
+    {% csrf_token %}
+    {{form}}
+    <input type="submit" value="Submit">
+</form>
+{% endblock %}

@@ -8,9 +8,15 @@ from django.db import IntegrityError
 from django.contrib.auth import login, logout
 from django.contrib.auth import forms  
 from django.contrib import messages  
+from .models import *
+from theboxapp.staffboxforms import BoxForm
+from theboxapp.studentboxforms import UpdateboxForm
+from django.http import HttpResponseRedirect
+from datetime import datetime
+from datetime import date
 
 # Create your views here.
-
+username="undefined"
 
 def home(request):
     # rmb to create a real home page
@@ -70,7 +76,34 @@ def studentlogin(request):
 
 
 def stuentthebox(request):
-    return render(request, 'theboxapp/studentthebox.html')
+    # form = BoxForm()
+    today = datetime.today()
+    daynow = today.day
+    monthnow = today.month
+    yearnow = today.year
+    # print("daynow",daynow)
+    boxes = TheBox.objects.all()
+
+    for item in boxes:
+        if item.creationTime.year == yearnow:
+            if item.creationTime.month == monthnow:
+                if item.creationTime.day == daynow:
+                    print("YAY",item.creationTime.day)
+                    boxcurr = TheBox.objects.get(item.id)
+                    # box = TheBox.objects.get(creationTime=item.creationTime)
+                    # box.receiveUser = "sw4293"
+    form = BoxForm(instance=boxcurr)
+
+    # box = TheBox.objects.get(creationTime="2022-11-23 22:21:27.312086+00:00")
+    # form = BoxForm(instance=box)
+    context = {'form':form}
+
+    # if request.method == "POST":
+        
+    return render(request, 'theboxapp/studentthebox.html',context)
+
+def studentcancelthebox(request):
+    return render(request, 'theboxapp/studentcancelthebox.html')
 
 
 def studenthome(request):
@@ -86,7 +119,15 @@ def staffhome(request):
 
 
 def staffupdatebox(request):
-    return render(request, 'theboxapp/staffupdatebox.html')
+    form = BoxForm()
+    if request.method == 'POST':
+        # print("printing post", request.POST)
+        form = BoxForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    context = {'form':form}
+    return render(request, 'theboxapp/staffupdatebox.html',context)
 
 
 def staffdisplaydonate(request):

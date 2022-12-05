@@ -1,27 +1,24 @@
+{% load static %}
 {% block content %}
 <h1>
-    Enter the amount of each box category. 
-</h1>
+    Staff Update the Box
+    </h1>
+<h2>
+    If the box is vegeterian, just write in "vegeterian" <br><br>
+    If the box is vegan, just write in "vegan" <br><br>
+    Other wise, write the kinds of meat in the box, like "chicken", "beef", etc.
+</h2>
 <form action="" method="POST">
     {% csrf_token %}
-    <label for="meat">
-        Meat:
+    {{form}}
+    <!-- <label for="nutrition">
+        Nutrition Information:
     </label>
     <br> 
-    <input type="text" id="meat" name="meat">
+    <input type="text" id="nutrition" name="nutrition">
+
     <br>
-    <label for="vegeterian">
-        Vegeterian:
-    </label>
-    <br>
-    <input type="text" id="vegeterian" name="vegeterian">
-    <br>
-    <label for="vegan">
-        Vegan:
-    </label>
-    <br>
-    <input type="text" id="vegan" name="vegan">
-    <br>
+    <br> -->
     <input type="submit" value="Submit">
 </form>
 {% endblock %}
