@@ -32,7 +32,7 @@ urlpatterns = [
     path('studenthome/donatemealplan/', views.donatemealplan, name='studentdonatemealplan'),
     path('studenthome/registermealplan/', views.registermealplan, name='studentregistermealplan'),
     #student register the box below
-    path('studenthome/studentthebox/<str:pk>', views.stuentthebox,name='studentthebox'),
+    path('studenthome/studentthebox/', views.stuentthebox,name='studentthebox'),
     path('studenthome/studentcancelthebox/',views.studentcancelthebox,name='studentcancelthebox'),
     path('studenthome/studentfeedback/', views.studentfeedback, name='studentfeedback'),
     # STAFF

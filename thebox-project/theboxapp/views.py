@@ -16,10 +16,12 @@ from datetime import datetime
 from datetime import date
 
 # Create your views here.
-username="undefined"
+
 
 def home(request):
     # rmb to create a real home page
+    print("realhome")
+    # request.session.setdefault('username', 'none')
     return render(request, 'theboxapp/generalhome.html')
 
 
@@ -55,16 +57,20 @@ def registermealplan(request):
 
 
 def userlogin(request):
+
     if request.method == 'GET':
         return render(request, 'theboxapp/userlogin.html', {'form':AuthenticationForm()})
     else:
         username = request.POST['username']
         password = request.POST['password']
         user = AccountBackend.authenticate(username, password)
+        # realuse = user[0]
         if user is None:
             return render(request, 'theboxapp/userlogin.html', {'form':AuthenticationForm(), 'error':'Username and password did not match'})
         else:
             login(request, user[0], backend='theboxapp.backends.AccountBackend')
+            # print(user[0])
+            # request.session['username']=realuse
             if user[1] == 'staff':
                 return redirect('staffhome')
             elif user[1] == 'student':
@@ -76,33 +82,63 @@ def studentlogin(request):
 
 
 def stuentthebox(request):
-    # form = BoxForm()
+    # form1 = BoxForm()
     today = datetime.today()
     daynow = today.day
     monthnow = today.month
     yearnow = today.year
+    boxcurr="none"
+    form1 = "none"
     # print("daynow",daynow)
     boxes = TheBox.objects.all()
-
+    currUser = request.user
+    flag = 0
+    for item in boxes:
+        if item.receiveUser == currUser:
+            flag = 1
     for item in boxes:
         if item.creationTime.year == yearnow:
             if item.creationTime.month == monthnow:
                 if item.creationTime.day == daynow:
-                    print("YAY",item.creationTime.day)
-                    boxcurr = TheBox.objects.get(item.id)
-                    # box = TheBox.objects.get(creationTime=item.creationTime)
-                    # box.receiveUser = "sw4293"
-    form = BoxForm(instance=boxcurr)
+                    if item.receiveUser ==None:
+                        if item.receiveUser != currUser:
+                            # print("YAY",item.creationTime.day)
+                            # boxcurr = TheBox.objects.get(item.id)
+                            boxcurr = item
+                            form1 = BoxForm(instance=boxcurr)
+                            # box = TheBox.objects.get(creationTime=item.creationTime)
+                            # box.receiveUser = "sw4293"
+    # form = BoxForm(instance=boxcurr)
 
     # box = TheBox.objects.get(creationTime="2022-11-23 22:21:27.312086+00:00")
     # form = BoxForm(instance=box)
-    context = {'form':form}
-
-    # if request.method == "POST":
-        
-    return render(request, 'theboxapp/studentthebox.html',context)
+    
+    
+    print(currUser)
+    if request.method == "POST" and flag == 0:
+        if boxcurr!="none":
+            # boxcurr.update(receivedTime=today)
+            # boxcurr.update(receiveUser=currUser)
+            boxcurr.receivedTime = today
+            boxcurr.receiveUser = currUser
+            boxcurr.save()
+            # form = BoxForm(request.POST,instance=boxcurr)
+            # if form.is_valid():
+            #     form.save()
+            #     return redirect('/')
+    if form1 != "none" and flag == 0:
+        context = {'form':form1}
+        return render(request, 'theboxapp/studentthebox.html',context)
+    else:
+        return render(request, 'theboxapp/studentthebox.html')
 
 def studentcancelthebox(request):
+    boxes = TheBox.objects.all()
+    currUser = request.user
+    for eachbox in boxes:
+        if eachbox.receiveUser == currUser:
+            eachbox.receiveUser = None
+            eachbox.save()
     return render(request, 'theboxapp/studentcancelthebox.html')
 
 
