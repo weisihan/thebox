@@ -1,7 +1,5 @@
 from django.contrib import admin
-from .models import DonatedMealSwipe
-from .models import TheBox
-from .models import Account
+from .models import *
 from django.contrib.auth.models import User
 from django.contrib.auth.admin import UserAdmin
 
@@ -17,6 +15,7 @@ class TheBoxAdmin(admin.ModelAdmin):
 # Register your models here.
 admin.site.register(DonatedMealSwipe, DonatedAdmin)
 admin.site.register(TheBox, TheBoxAdmin)
+admin.site.register(Feedback)
 
 # class AccountInline / CustomizedUserAdmin: just conventions...
 

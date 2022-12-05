@@ -2,7 +2,6 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, UserChangeForm
 from django.contrib.auth.models import User
-from .models import Account
 from .backends import AccountBackend
 from django.db import IntegrityError
 from django.contrib.auth import login, logout
@@ -209,7 +208,13 @@ def staffdisplaydonate(request):
 
 
 def staffdisplayfeedback(request):
-    return render(request, 'theboxapp/staffdisplayfeedback.html')
+    feedbacks = list(Feedback.objects.all())
+    context = {}
+    fblst = []
+    for feedback in feedbacks:
+        fblst.append(feedback.content)
+    context["allfeedback"] = fblst
+    return render(request, 'theboxapp/staffdisplayfeedback.html', context)
 
 
 def studentfeedback(request):

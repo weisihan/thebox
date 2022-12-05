@@ -47,3 +47,11 @@ class TheBox(models.Model):
 
     def __str__(self):
         return self.nutritionFacts
+
+class Feedback(models.Model):
+    content = models.TextField(blank=True)
+    user = models.ForeignKey(
+        User, null=True, blank=True, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.content
