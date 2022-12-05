@@ -1,12 +1,14 @@
+{% load static %}
+{% block content %}
 <h1>
-    Share yor feedback here
-</h1>
-<form>
-    <label for="feedback">
-        Feedback:
-    </label>
-    <br>
-    <input type="text" id="feedback" name="feedback">
-    <br>
+    Share your feedback here
+    </h1>
+<h2>
+    Please be kind and keep in mind that everyone will be able to see your feedback
+</h2>
+<form action="" method="POST">
+    {% csrf_token %}
+    {{form}}
     <input type="submit" value="Submit">
 </form>
+{% endblock %}
