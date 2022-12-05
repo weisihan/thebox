@@ -27,12 +27,12 @@ class DonatedMealSwipe(models.Model):
     # availability of the donated meal swipe
     availability = models.BooleanField(default=True)
     donateUser = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name='donateUser')
+        User, null=True, on_delete=models.CASCADE, related_name='donateUser')
     receiveUser = models.ForeignKey(
         User, null=True, on_delete=models.CASCADE, related_name='receiveUser')
 
     def __str__(self):
-        return "Mealswipe donated by " + self.donateUser.username
+        return "Mealswipe donated"  # + self.donateUser.username
 
 
 class TheBox(models.Model):

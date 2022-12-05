@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, UserChangeForm
 from django.contrib.auth.models import User
 from .models import Account
 from .backends import AccountBackend
@@ -14,6 +14,7 @@ from theboxapp.studentboxforms import UpdateboxForm
 from django.http import HttpResponseRedirect
 from datetime import datetime
 from datetime import date
+from .studentmealswipeforms import StudentMealSwipeForm
 
 # Create your views here.
 
@@ -50,7 +51,23 @@ def checkmealplan(request):
 
 
 def donatemealplan(request):
-    return render(request, 'theboxapp/donatemealplan.html')
+    print(request.user.account.mealSwipNum)
+    if request.method == 'POST':
+        form = StudentMealSwipeForm(request.POST)
+        if form.is_valid():
+            form.save()
+            acc = request.user.account
+            meal = acc.mealSwipNum
+            setattr(acc, 'mealSwipNum', meal-1)
+            acc.save()
+            print(request.user.account.mealSwipNum)
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+        context = {'form': form}
+        return render(request, 'theboxapp/donatemealplan.html', context)
+    else:
+        form = StudentMealSwipeForm(request.POST)
+        context = {'form': form}
+        return render(request, 'theboxapp/donatemealplan.html', context)
 
 
 def registermealplan(request):
