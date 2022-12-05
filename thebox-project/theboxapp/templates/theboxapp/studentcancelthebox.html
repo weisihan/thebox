@@ -1,0 +1,14 @@
+{% load static %}
+{% block content %}
+<h1>
+    Student Cancel
+    </h1>
+<h2>
+    Click submit to cancel the box you registered for today. 
+</h2>
+<form action="" method="POST">
+    {% csrf_token %}
+    {{form}}
+    <input type="submit" value="Submit">
+</form>
+{% endblock %}
