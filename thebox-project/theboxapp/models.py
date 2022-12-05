@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 class Account(models.Model):
     user = models.OneToOneField(
         User, related_name='account', on_delete=models.CASCADE)
+    username = models.CharField(max_length=200, default='none')
     password = models.CharField(max_length=200, default='none')
     who = models.CharField(
         max_length=7,

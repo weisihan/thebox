@@ -35,6 +35,7 @@ urlpatterns = [
     path('studenthome/studentthebox/', views.stuentthebox,name='studentthebox'),
     path('studenthome/studentcancelthebox/',views.studentcancelthebox,name='studentcancelthebox'),
     path('studenthome/studentfeedback/', views.studentfeedback, name='studentfeedback'),
+    path('studenthome/logout/', views.logoutuser, name='logoutuser'),
     # STAFF
     path('stafflogin/', views.stafflogin, name='stafflogin'),
     path('staffhome/', views.staffhome, name='staffhome'),
@@ -42,5 +43,7 @@ urlpatterns = [
     path('staffhome/staffdisplaydonate/', views.staffdisplaydonate, name='staffdisplaydonate'),
     path('staffhome/staffdisplayfeedback/', views.staffdisplayfeedback,
          name='staffdisplayfeedback'),
+    path('staffhome/logout/', views.logoutuser, name='logoutuser'),
+
 
 ]
