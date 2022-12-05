@@ -6,8 +6,8 @@ from .models import Account
 from .backends import AccountBackend
 from django.db import IntegrityError
 from django.contrib.auth import login, logout
-from django.contrib.auth import forms  
-from django.contrib import messages  
+from django.contrib.auth import forms
+from django.contrib import messages
 from .models import *
 from theboxapp.staffboxforms import BoxForm
 from theboxapp.studentboxforms import UpdateboxForm
@@ -45,7 +45,8 @@ def homepagestudent(request):
 
 # below are for students:
 def checkmealplan(request):
-    return render(request, 'theboxapp/checkmealplan.html')
+    context = {'user': request.user}
+    return render(request, 'theboxapp/checkmealplan.html', context)
 
 
 def donatemealplan(request):
@@ -59,22 +60,23 @@ def registermealplan(request):
 def userlogin(request):
 
     if request.method == 'GET':
-        return render(request, 'theboxapp/userlogin.html', {'form':AuthenticationForm()})
+        return render(request, 'theboxapp/userlogin.html', {'form': AuthenticationForm()})
     else:
         username = request.POST['username']
         password = request.POST['password']
         user = AccountBackend.authenticate(username, password)
         # realuse = user[0]
         if user is None:
-            return render(request, 'theboxapp/userlogin.html', {'form':AuthenticationForm(), 'error':'Username and password did not match'})
+            return render(request, 'theboxapp/userlogin.html', {'form': AuthenticationForm(), 'error': 'Username and password did not match'})
         else:
-            login(request, user[0], backend='theboxapp.backends.AccountBackend')
+            login(request, user[0],
+                  backend='theboxapp.backends.AccountBackend')
             # print(user[0])
             # request.session['username']=realuse
             if user[1] == 'staff':
                 return redirect('staffhome')
             elif user[1] == 'student':
-                return redirect('studenthome')    
+                return redirect('studenthome')
 
 
 def studentlogin(request):
@@ -87,7 +89,7 @@ def stuentthebox(request):
     daynow = today.day
     monthnow = today.month
     yearnow = today.year
-    boxcurr="none"
+    boxcurr = "none"
     form1 = "none"
     # print("daynow",daynow)
     boxes = TheBox.objects.all()
@@ -100,7 +102,7 @@ def stuentthebox(request):
         if item.creationTime.year == yearnow:
             if item.creationTime.month == monthnow:
                 if item.creationTime.day == daynow:
-                    if item.receiveUser ==None:
+                    if item.receiveUser == None:
                         if item.receiveUser != currUser:
                             # print("YAY",item.creationTime.day)
                             # boxcurr = TheBox.objects.get(item.id)
@@ -112,11 +114,10 @@ def stuentthebox(request):
 
     # box = TheBox.objects.get(creationTime="2022-11-23 22:21:27.312086+00:00")
     # form = BoxForm(instance=box)
-    
-    
+
     print(currUser)
     if request.method == "POST" and flag == 0:
-        if boxcurr!="none":
+        if boxcurr != "none":
             # boxcurr.update(receivedTime=today)
             # boxcurr.update(receiveUser=currUser)
             boxcurr.receivedTime = today
@@ -127,10 +128,11 @@ def stuentthebox(request):
             #     form.save()
             #     return redirect('/')
     if form1 != "none" and flag == 0:
-        context = {'form':form1}
-        return render(request, 'theboxapp/studentthebox.html',context)
+        context = {'form': form1}
+        return render(request, 'theboxapp/studentthebox.html', context)
     else:
         return render(request, 'theboxapp/studentthebox.html')
+
 
 def studentcancelthebox(request):
     boxes = TheBox.objects.all()
@@ -162,8 +164,8 @@ def staffupdatebox(request):
         if form.is_valid():
             form.save()
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-    context = {'form':form}
-    return render(request, 'theboxapp/staffupdatebox.html',context)
+    context = {'form': form}
+    return render(request, 'theboxapp/staffupdatebox.html', context)
 
 
 def staffdisplaydonate(request):
