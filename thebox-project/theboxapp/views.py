@@ -10,6 +10,7 @@ from django.contrib import messages
 from .models import *
 from theboxapp.staffboxforms import BoxForm
 from theboxapp.studentboxforms import UpdateboxForm
+from theboxapp.studentfeedbackforms import feedbackForm
 from django.http import HttpResponseRedirect
 from datetime import datetime
 from datetime import date
@@ -203,8 +204,21 @@ def staffupdatebox(request):
     return render(request, 'theboxapp/staffupdatebox.html', context)
 
 
+def studentfeedback(request):
+    form = feedbackForm()
+    if request.method == 'POST':
+        form = feedbackForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    context = {'form': form}
+    return render(request, 'theboxapp/studentfeedback.html', context)
+
+
 def staffdisplaydonate(request):
-    return render(request, 'theboxapp/staffdisplaydonate.html')
+    donated = list(DonatedMealSwipe.objects.all())
+    context = {"number": len(donated)}
+    return render(request, 'theboxapp/staffdisplaydonate.html', context)
 
 
 def staffdisplayfeedback(request):
@@ -217,5 +231,3 @@ def staffdisplayfeedback(request):
     return render(request, 'theboxapp/staffdisplayfeedback.html', context)
 
 
-def studentfeedback(request):
-    return render(request, 'theboxapp/studentfeedback.html')
