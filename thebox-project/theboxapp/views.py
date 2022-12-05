@@ -129,8 +129,11 @@ def stuentthebox(request):
     currUser = request.user
     flag = 0
     for item in boxes:
-        if item.receiveUser == currUser:
-            flag = 1
+         if item.creationTime.year == yearnow:
+            if item.creationTime.month == monthnow:
+                if item.creationTime.day == daynow:
+                    if item.receiveUser == currUser:
+                        flag = 1
     for item in boxes:
         if item.creationTime.year == yearnow:
             if item.creationTime.month == monthnow:
