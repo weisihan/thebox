@@ -67,7 +67,7 @@ def donatemealplan(request):
         form = StudentMealSwipeForm(request.POST)
         if request.user.account.mealSwipNum <= 0:
             messages.error(
-                request, 'Sorry, you do not have any mealswips left in your account.')
+                request, 'Sorry, you do not have any mealswipes left in your account.')
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
         else:
             if form.is_valid():
@@ -96,6 +96,11 @@ def registermealplan(request):
             return redirect('staffhome')
     except Account.DoesNotExist:
         return redirect('/')
+    
+    if len(DonatedMealSwipe.objects.all()) <= 0:
+        messages.error(
+            request, 'Sorry, there is no donated mealswipe in the pool.')
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
     print(request.user.account.mealSwipNum)
     if request.method == 'POST':
