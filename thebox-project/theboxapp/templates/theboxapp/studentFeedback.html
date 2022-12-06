@@ -23,16 +23,19 @@
 </head>
 <div id="parent">
 <h1 id="header">
-    Share youur feedback here
+    Share your feedback here
     </h1>
 <div id="bodycontent">
 <h2>
-    Please be kind and keep in mind that        Your feedback will be anonymous<br>
- everyone will be able to see your feedback
+    Please keep in mind that your feedback will be anonymous.<br>
+ All staff members will be able to see your feedback.
 </h2>
 <form action="" method="POST">
     {% csrf_token %}
     {{form}}
     <input type="submit" value="Submit">
 </form>
+{% for msg in messages %}
+    {{msg}}
+{% endfor %}
 {%endblock%}

@@ -27,13 +27,15 @@
         <h1 id="header">
             Donate Meal Swipes
         </h1>
+        {% for msg in messages %}
+            {{msg}}
+        {% endfor %}
         <div id="bodycontent">
-            
-
             <form method="POST">
                 {% csrf_token %}
                 <br><br>
-                <input type="submit" value="Submit">
+                <p>Click to donate one meal swipe.</p>
+                <input type="submit" value="Donate">
             </form>
         </div>
     </div>

@@ -28,11 +28,11 @@
     Staff Update the Box
     </h1>
     <div id="bodycontent">
-<h2>
+<p>
     If the box is vegeterian, just write in "vegeterian" <br><br>
     If the box is vegan, just write in "vegan" <br><br>
-    Other wise, write the kinds of meat in the box, like "chicken", "beef", etc.
-</h2>
+    Other wise, write the kind of meat in the box, like "chicken", "beef", etc.
+</p>
 <form action="" method="POST">
     {% csrf_token %}
     {{form}}
@@ -49,4 +49,7 @@
     </div>
 </div>
 </body>
+{% for msg in messages %}
+    {{msg}}
+{% endfor %}
 {% endblock %}

@@ -26,9 +26,9 @@
     Student Cancel
     </h1>
     <div id="bodycontent">
-<h2>
+<p>
     Click submit to cancel the box you registered for today. 
-</h2>
+</p>
 <form action="" method="POST">
     {% csrf_token %}
     <!-- {{form}} -->
@@ -36,4 +36,7 @@
 </form>
 </div>
 </div>
+{% for msg in messages %}
+    {{msg}}
+{% endfor %}
 {% endblock %}

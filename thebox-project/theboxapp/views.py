@@ -49,7 +49,7 @@ def checkmealplan(request):
             return redirect('staffhome')
     except Account.DoesNotExist:
         return redirect('/')
-        
+
     return render(request, 'theboxapp/checkmealplan.html', context)
 
 
@@ -65,16 +65,23 @@ def donatemealplan(request):
     print(request.user.account.mealSwipNum)
     if request.method == 'POST':
         form = StudentMealSwipeForm(request.POST)
-        if form.is_valid():
-            form.save()
-            acc = request.user.account
-            meal = acc.mealSwipNum
-            setattr(acc, 'mealSwipNum', meal-1)
-            acc.save()
-            print(request.user.account.mealSwipNum)
+        if request.user.account.mealSwipNum <= 0:
+            messages.error(
+                request, 'Sorry, you do not have any mealswips left in your account.')
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-        context = {'form': form}
-        return render(request, 'theboxapp/donatemealplan.html', context)
+        else:
+            if form.is_valid():
+                form.save()
+                acc = request.user.account
+                meal = acc.mealSwipNum
+                setattr(acc, 'mealSwipNum', meal-1)
+                acc.save()
+                print(request.user.account.mealSwipNum)
+                messages.success(
+                    request, 'Succcessfully donated one mealswipe. Thank you!')
+                return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+            context = {'form': form}
+            return render(request, 'theboxapp/donatemealplan.html', context)
     else:
         form = StudentMealSwipeForm(request.POST)
         context = {'form': form}
@@ -103,6 +110,8 @@ def registermealplan(request):
         for one in delete:
             one.delete()
         print(len(DonatedMealSwipe.objects.all()))
+        messages.success(
+            request, 'Successfully registered for one free mealswipe!')
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
     # return render(request, 'theboxapp/registermealplan.html')
     else:
@@ -155,7 +164,7 @@ def stuentthebox(request):
     currUser = request.user
     flag = 0
     for item in boxes:
-         if item.creationTime.year == yearnow:
+        if item.creationTime.year == yearnow:
             if item.creationTime.month == monthnow:
                 if item.creationTime.day == daynow:
                     if item.receiveUser == currUser:
@@ -178,17 +187,32 @@ def stuentthebox(request):
     # form = BoxForm(instance=box)
 
     print(currUser)
-    if request.method == "POST" and flag == 0:
-        if boxcurr != "none":
-            # boxcurr.update(receivedTime=today)
-            # boxcurr.update(receiveUser=currUser)
-            boxcurr.receivedTime = today
-            boxcurr.receiveUser = currUser
-            boxcurr.save()
-            # form = BoxForm(request.POST,instance=boxcurr)
-            # if form.is_valid():
-            #     form.save()
-            #     return redirect('/')
+    if request.method == 'GET':
+        if flag == 1:
+            messages.error(
+                request, 'You have already registered for the box today.')
+            return render(request, 'theboxapp/studentthebox.html')
+        elif len(TheBox.objects.all()) == 0:
+            messages.info(
+                request, 'There is no availbale box at this moment. Please come back later.')
+            return render(request, 'theboxapp/studentthebox.html')
+    if request.method == "POST":
+        if len(TheBox.objects.all()) == 0:
+            messages.info(
+                request, 'There is no availbale box at this moment. Please come back later.')
+            return render(request, 'theboxapp/studentthebox.html')
+        elif flag == 0:
+            if boxcurr != "none":
+                boxcurr.receivedTime = today
+                boxcurr.receiveUser = currUser
+                boxcurr.save()
+                messages.success(
+                    request, 'Successfully registered for the box!')
+                return render(request, 'theboxapp/studentthebox.html')
+        elif flag == 1:
+            messages.error(
+                request, 'You have already registered for the box today.')
+            return render(request, 'theboxapp/studentthebox.html')
     if form1 != "none" and flag == 0:
         context = {'form': form1}
         return render(request, 'theboxapp/studentthebox.html', context)
@@ -197,7 +221,6 @@ def stuentthebox(request):
 
 
 def studentcancelthebox(request):
-
     context = {'user': request.user}
     try:
         account = Account.objects.get(username=request.user)
@@ -205,14 +228,29 @@ def studentcancelthebox(request):
             return redirect('staffhome')
     except Account.DoesNotExist:
         return redirect('/')
-
     boxes = TheBox.objects.all()
     currUser = request.user
-    for eachbox in boxes:
-        if eachbox.receiveUser == currUser:
-            eachbox.receiveUser = None
-            eachbox.save()
-    return render(request, 'theboxapp/studentcancelthebox.html')
+    doIHaveABox = False
+    for each in boxes:
+        if each.receiveUser == currUser:
+            doIHaveABox = True
+    if request.method == 'GET':
+        if doIHaveABox == False:
+            messages.error(
+                request, 'You have not registered for box yet.')
+        return render(request, 'theboxapp/studentcancelthebox.html')
+    if request.method == 'POST':
+        for eachbox in boxes:
+            if eachbox.receiveUser == currUser:
+                doIHaveABox = True
+                eachbox.receiveUser = None
+                eachbox.save()
+                messages.success(
+                    request, 'You have successfully canceled your box.')
+        if (doIHaveABox == False):
+            messages.error(
+                request, 'You have not registered for box yet.')
+        return render(request, 'theboxapp/studentcancelthebox.html')
 
 
 def studenthome(request):
@@ -251,13 +289,16 @@ def staffupdatebox(request):
             return redirect('studenthome')
     except Account.DoesNotExist:
         return redirect('/')
-
     form = BoxForm()
     if request.method == 'POST':
-        # print("printing post", request.POST)
         form = BoxForm(request.POST)
-        if form.is_valid():
+        if form.is_valid() and form.data['nutritionFacts']:
             form.save()
+            messages.success(request, 'You have successfully added a new box.')
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+        else:
+            messages.error(
+                request, 'Please fill in nutrition facts of the box before submitting.')
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
     context = {'form': form}
     return render(request, 'theboxapp/staffupdatebox.html', context)
@@ -275,8 +316,13 @@ def studentfeedback(request):
     form = feedbackForm()
     if request.method == 'POST':
         form = feedbackForm(request.POST)
-        if form.is_valid():
+        if form.is_valid() and form.data['content']:
             form.save()
+            messages.success(request, 'Thank you for sharing you feedback!')
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+        else:
+            messages.error(
+                request, 'Please fill in feedback content before submitting.')
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
     context = {'form': form}
     return render(request, 'theboxapp/studentfeedback.html', context)
@@ -312,5 +358,3 @@ def staffdisplayfeedback(request):
         fblst.append(feedback.content)
     context["allfeedback"] = fblst
     return render(request, 'theboxapp/staffdisplayfeedback.html', context)
-
-
