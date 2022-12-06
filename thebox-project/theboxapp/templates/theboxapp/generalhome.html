@@ -4,6 +4,8 @@
 	<head>
 		<meta charset="utf-8">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css">
+    <link rel="stylesheet" href="mystyle.css">
 		<title>Student home</title>
     <style type="text/css">
     @media screen and (min-width:961px){
@@ -26,10 +28,13 @@
     } */
     #header{
       width: 100%;
-      height:30px;
+      height:60px;
       background-color:#B8E3F9;
       color:white;
-    }
+    }#parent{
+            position:relative;
+        }
+
     .content{
       box-sizing:border-box;
       float:left;
@@ -59,7 +64,9 @@
     </style>
 	</head>
 	<body>
+    <div id="parent">
 		<h1 id="header">Home: Welcome to The Box!</h1>
+    <div id="bodycontent">
     <div id="container">
       <div id="B" class="content">
         <a href="login" target="_blank">
@@ -74,6 +81,8 @@
         </a>
       </div>
     </div>
+  </div>
+  </div>
 	</body>
 
 </html>

@@ -1,6 +1,29 @@
+<!DOCTYPE html>
+<head>
+    <link rel="stylesheet" href="mystyle.css">
+    <style>
+         #header{
+      width: 100%;
+      height:60px;
+      background-color:#B8E3F9;
+      color:white;
+    }
+    #bodycontent{
+        border:solid #B8E3F9;
+        width: 100%;
+        height:120px;
+        text-align: center;
+        background-color:white;
+        color:black;
+        font-size: 30px;
+    }
+    </style>
+</head>
 {% block content %}
-
-<p>
+<h1 id="header">
+    Check Your Meal Plan Number
+</h1>
+<p id="bodycontent">
     Your total meal swipes number is: {{user.account.mealSwipNum}}
 </p>
 
