@@ -224,7 +224,7 @@ def studenthome(request):
     except Account.DoesNotExist:
         return redirect('/')
 
-    return render(request, 'theboxapp/studenthome.html')
+    return render(request, 'theboxapp/studenthome.html', context)
 
 
 def stafflogin(request):
@@ -232,6 +232,7 @@ def stafflogin(request):
 
 
 def staffhome(request):
+    context = {'user': request.user}
     try:
         account = Account.objects.get(username=request.user)
         if account.who == 'student':
@@ -239,7 +240,7 @@ def staffhome(request):
     except Account.DoesNotExist:
         return redirect('/')
 
-    return render(request, 'theboxapp/staffhome.html')
+    return render(request, 'theboxapp/staffhome.html', context)
 
 
 def staffupdatebox(request):
