@@ -1,3 +1,5 @@
+{% load static %}
+{% block content %}
 <head>
     <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css">
     <style>
@@ -21,18 +23,15 @@
 </head>
 <div id="parent">
 <h1 id="header">
-    Share your feedback here
-</h1>
+    Share youur feedback here
+    </h1>
 <div id="bodycontent">
-<form>
-    <label for="feedback">
-        Your feedback will be anonymous<br>
-        Feedback:
-    </label>
-    <br>
-    <input type="text" id="feedback" name="feedback">
-    <br>
+<h2>
+    Please be kind and keep in mind that        Your feedback will be anonymous<br>
+ everyone will be able to see your feedback
+</h2>
+<form action="" method="POST">
+    {% csrf_token %}
+    {{form}}
     <input type="submit" value="Submit">
 </form>
-</div>
-</div>

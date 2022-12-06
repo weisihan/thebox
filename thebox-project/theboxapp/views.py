@@ -2,7 +2,6 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, UserChangeForm
 from django.contrib.auth.models import User
-from .models import Account
 from .backends import AccountBackend
 from django.db import IntegrityError
 from django.contrib.auth import login, logout
@@ -11,6 +10,7 @@ from django.contrib import messages
 from .models import *
 from theboxapp.staffboxforms import BoxForm
 from theboxapp.studentboxforms import UpdateboxForm
+from theboxapp.studentfeedbackforms import feedbackForm
 from django.http import HttpResponseRedirect
 from datetime import datetime
 from datetime import date
@@ -35,22 +35,33 @@ def signupuser(request):
 
 
 def logoutuser(request):
-    if request.method == "POST":
-        logout(request)
-        return redirect()
-
-
-def homepagestudent(request):
-    return render(request, 'theboxapp/homepagestudent.html')
+    logout(request)
+    request.user = None
+    return redirect('/')
 
 
 # below are for students:
 def checkmealplan(request):
     context = {'user': request.user}
+    try:
+        account = Account.objects.get(username=request.user)
+        if account.who == 'staff':
+            return redirect('staffhome')
+    except Account.DoesNotExist:
+        return redirect('/')
+        
     return render(request, 'theboxapp/checkmealplan.html', context)
 
 
 def donatemealplan(request):
+    context = {'user': request.user}
+    try:
+        account = Account.objects.get(username=request.user)
+        if account.who == 'staff':
+            return redirect('staffhome')
+    except Account.DoesNotExist:
+        return redirect('/')
+
     print(request.user.account.mealSwipNum)
     if request.method == 'POST':
         form = StudentMealSwipeForm(request.POST)
@@ -71,6 +82,14 @@ def donatemealplan(request):
 
 
 def registermealplan(request):
+    context = {'user': request.user}
+    try:
+        account = Account.objects.get(username=request.user)
+        if account.who == 'staff':
+            return redirect('staffhome')
+    except Account.DoesNotExist:
+        return redirect('/')
+
     print(request.user.account.mealSwipNum)
     if request.method == 'POST':
         acc = request.user.account
@@ -91,7 +110,6 @@ def registermealplan(request):
 
 
 def userlogin(request):
-
     if request.method == 'GET':
         return render(request, 'theboxapp/userlogin.html', {'form': AuthenticationForm()})
     else:
@@ -117,6 +135,14 @@ def studentlogin(request):
 
 
 def stuentthebox(request):
+    context = {'user': request.user}
+    try:
+        account = Account.objects.get(username=request.user)
+        if account.who == 'staff':
+            return redirect('staffhome')
+    except Account.DoesNotExist:
+        return redirect('/')
+
     # form1 = BoxForm()
     today = datetime.today()
     daynow = today.day
@@ -171,6 +197,15 @@ def stuentthebox(request):
 
 
 def studentcancelthebox(request):
+
+    context = {'user': request.user}
+    try:
+        account = Account.objects.get(username=request.user)
+        if account.who == 'staff':
+            return redirect('staffhome')
+    except Account.DoesNotExist:
+        return redirect('/')
+
     boxes = TheBox.objects.all()
     currUser = request.user
     for eachbox in boxes:
@@ -181,6 +216,14 @@ def studentcancelthebox(request):
 
 
 def studenthome(request):
+    context = {'user': request.user}
+    try:
+        account = Account.objects.get(username=request.user)
+        if account.who == 'staff':
+            return redirect('staffhome')
+    except Account.DoesNotExist:
+        return redirect('/')
+
     return render(request, 'theboxapp/studenthome.html')
 
 
@@ -189,10 +232,25 @@ def stafflogin(request):
 
 
 def staffhome(request):
-    return render(request, 'theboxapp/staffhome.html')
+    try:
+        account = Account.objects.get(username=request.user)
+        if account.who == 'student':
+            return redirect('studenthome')
+    except Account.DoesNotExist:
+        return redirect('/')
+
+    return render(request, 'theboxapp/staffhome.html', context)
 
 
 def staffupdatebox(request):
+    context = {'user': request.user}
+    try:
+        account = Account.objects.get(username=request.user)
+        if account.who == 'student':
+            return redirect('studenthome')
+    except Account.DoesNotExist:
+        return redirect('/')
+
     form = BoxForm()
     if request.method == 'POST':
         # print("printing post", request.POST)
@@ -204,13 +262,54 @@ def staffupdatebox(request):
     return render(request, 'theboxapp/staffupdatebox.html', context)
 
 
+def studentfeedback(request):
+    context = {'user': request.user}
+    try:
+        account = Account.objects.get(username=request.user)
+        if account.who == 'staff':
+            return redirect('staffhome')
+    except Account.DoesNotExist:
+        return redirect('/')
+
+    form = feedbackForm()
+    if request.method == 'POST':
+        form = feedbackForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    context = {'form': form}
+    return render(request, 'theboxapp/studentfeedback.html', context)
+
+
 def staffdisplaydonate(request):
-    return render(request, 'theboxapp/staffdisplaydonate.html')
+    context = {'user': request.user}
+    try:
+        account = Account.objects.get(username=request.user)
+        if account.who == 'student':
+            return redirect('studenthome')
+    except Account.DoesNotExist:
+        return redirect('/')
+
+    donated = list(DonatedMealSwipe.objects.all())
+    context = {"number": len(donated)}
+    return render(request, 'theboxapp/staffdisplaydonate.html', context)
 
 
 def staffdisplayfeedback(request):
-    return render(request, 'theboxapp/staffdisplayfeedback.html')
+    context = {'user': request.user}
+    try:
+        account = Account.objects.get(username=request.user)
+        if account.who == 'student':
+            return redirect('studenthome')
+    except Account.DoesNotExist:
+        return redirect('/')
+
+    feedbacks = list(Feedback.objects.all())
+    context = {}
+    fblst = []
+    for feedback in feedbacks:
+        fblst.append(feedback.content)
+    context["allfeedback"] = fblst
+    return render(request, 'theboxapp/staffdisplayfeedback.html', context)
 
 
-def studentfeedback(request):
-    return render(request, 'theboxapp/studentfeedback.html')
