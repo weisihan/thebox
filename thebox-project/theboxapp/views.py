@@ -160,6 +160,8 @@ def stuentthebox(request):
                 if item.creationTime.day == daynow:
                     if item.receiveUser == currUser:
                         flag = 1
+                        print("hi",context1)
+                        context1 = {'reginfo':"You have already registered for a box today"}
     for item in boxes:
         if item.creationTime.year == yearnow:
             if item.creationTime.month == monthnow:
@@ -191,9 +193,11 @@ def stuentthebox(request):
             #     return redirect('/')
     if form1 != "none" and flag == 0:
         context = {'form': form1}
+        context["reginfo"] = "You have not registered the box for today"
         return render(request, 'theboxapp/studentthebox.html', context)
     else:
-        return render(request, 'theboxapp/studentthebox.html')
+        context["reginfo"] = "You have registered the box for today"
+        return render(request, 'theboxapp/studentthebox.html', context)
 
 
 def studentcancelthebox(request):
@@ -210,9 +214,12 @@ def studentcancelthebox(request):
     currUser = request.user
     for eachbox in boxes:
         if eachbox.receiveUser == currUser:
+            context["reginfo"] = "You have successfully cancelled your box."
             eachbox.receiveUser = None
             eachbox.save()
-    return render(request, 'theboxapp/studentcancelthebox.html')
+        else:
+            context["reginfo"] = "You did not register for a box yet."
+    return render(request, 'theboxapp/studentcancelthebox.html',context)
 
 
 def studenthome(request):

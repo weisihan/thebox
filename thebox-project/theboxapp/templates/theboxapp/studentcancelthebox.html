@@ -29,6 +29,10 @@
 <h2>
     Click submit to cancel the box you registered for today. 
 </h2>
+<p> Your Status: <br></p>
+<p>
+        {{ reginfo }}
+</p>  
 <form action="" method="POST">
     {% csrf_token %}
     <!-- {{form}} -->
