@@ -215,9 +215,11 @@ def stuentthebox(request):
             return render(request, 'theboxapp/studentthebox.html')
     if form1 != "none" and flag == 0:
         context = {'form': form1}
+        context["reginfo"] = "You have not registered the box for today"
         return render(request, 'theboxapp/studentthebox.html', context)
     else:
-        return render(request, 'theboxapp/studentthebox.html')
+        context["reginfo"] = "You have registered the box for today"
+        return render(request, 'theboxapp/studentthebox.html', context)
 
 
 def studentcancelthebox(request):

@@ -39,6 +39,11 @@
    <br><br>You should not register if you are allergic anything in the  nutrition facts. The boxes are surprise bags and cannot be chose.
    <br><br> If you have already registered for one box today, there will be no display for boxes for you. You also cannot register for the box again.
    <br><br>
+   <p> Your Status: <br></p>
+<p>
+        {{ reginfo }}
+</p>     
+
 <form action="" method="POST">
     {% csrf_token %}
     {{form}}
