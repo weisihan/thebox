@@ -194,12 +194,12 @@ def stuentthebox(request):
             return render(request, 'theboxapp/studentthebox.html')
         elif len(TheBox.objects.all()) == 0:
             messages.info(
-                request, 'There is no availbale box at this moment. Please come back later.')
+                request, 'There is no availbale box for you at this moment. Please come back later.')
             return render(request, 'theboxapp/studentthebox.html')
     if request.method == "POST":
         if len(TheBox.objects.all()) == 0:
             messages.info(
-                request, 'There is no availbale box at this moment. Please come back later.')
+                request, 'There is no availbale box for you at this moment. Please come back later.')
             return render(request, 'theboxapp/studentthebox.html')
         elif flag == 0:
             if boxcurr != "none":
