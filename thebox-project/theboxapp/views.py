@@ -239,7 +239,7 @@ def staffhome(request):
     except Account.DoesNotExist:
         return redirect('/')
 
-    return render(request, 'theboxapp/staffhome.html', context)
+    return render(request, 'theboxapp/staffhome.html')
 
 
 def staffupdatebox(request):

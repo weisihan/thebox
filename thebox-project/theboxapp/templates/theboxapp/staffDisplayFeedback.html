@@ -1,5 +1,36 @@
+<head>
+        <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css">
+        <style>
+            #header{
+         width: 100%;
+         height:60px;
+         background-color:#B8E3F9;
+         color:white;
+       }
+       #parent{
+                position:relative;
+            }
+            #bodycontent{
+                position: absolute;
+                text-align: center;
+                width:70%;
+                top: 170px;
+                left: 10%;
+            }
+            .felement{
+                border:solid 9px #B8E3F9;
+            }
+       </style>
+    </head>
+    <body>
+        <div id="parent">
+        <h1 id="header">Check Feedbacks<h1>
+                <div id="bodycontent">
 Displaying feedbacks from students:
-<br>
+<br><br>
 {% for feedback in allfeedback %}
-        {{ feedback }} <br>
+        <p class="felement">{{ feedback }}</p> 
 {% endfor %}
+                </div>
+</div>
+</body>
