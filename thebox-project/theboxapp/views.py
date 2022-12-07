@@ -78,7 +78,7 @@ def donatemealplan(request):
                 acc.save()
                 print(request.user.account.mealSwipNum)
                 messages.success(
-                    request, 'Succcessfully donated one mealswipe. Thank you!')
+                    request, 'Successfully donated one mealswipe. Thank you!')
                 return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
             context = {'form': form}
             return render(request, 'theboxapp/donatemealplan.html', context)
@@ -96,12 +96,10 @@ def registermealplan(request):
             return redirect('staffhome')
     except Account.DoesNotExist:
         return redirect('/')
-    
     if len(DonatedMealSwipe.objects.all()) <= 0:
         messages.error(
             request, 'Sorry, there is no donated mealswipe in the pool.')
-        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-
+        return render(request, 'theboxapp/registermealplan.html')
     print(request.user.account.mealSwipNum)
     if request.method == 'POST':
         acc = request.user.account
@@ -201,6 +199,10 @@ def stuentthebox(request):
             messages.info(
                 request, 'There is no availbale box for you at this moment. Please come back later.')
             return render(request, 'theboxapp/studentthebox.html')
+        elif flag == 0:
+            context = {'form': form1}
+            print('hello')
+            return render(request, 'theboxapp/studentthebox.html', context)
     if request.method == "POST":
         if len(TheBox.objects.all()) == 0:
             messages.info(
@@ -366,8 +368,8 @@ def staffdisplayfeedback(request):
     context["allfeedback"] = fblst
     return render(request, 'theboxapp/staffdisplayfeedback.html', context)
 
+
 def studentdisplayfeedback(request):
-    def staffdisplayfeedback(request):
     context = {'user': request.user}
     try:
         account = Account.objects.get(username=request.user)
