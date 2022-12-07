@@ -365,3 +365,21 @@ def staffdisplayfeedback(request):
         fblst.append(feedback.content)
     context["allfeedback"] = fblst
     return render(request, 'theboxapp/staffdisplayfeedback.html', context)
+
+def studentdisplayfeedback(request):
+    def staffdisplayfeedback(request):
+    context = {'user': request.user}
+    try:
+        account = Account.objects.get(username=request.user)
+        if account.who == 'staff':
+            return redirect('staffhome')
+    except Account.DoesNotExist:
+        return redirect('/')
+
+    feedbacks = list(Feedback.objects.all())
+    context = {}
+    fblst = []
+    for feedback in feedbacks:
+        fblst.append(feedback.content)
+    context["allfeedback"] = fblst
+    return render(request, 'theboxapp/studentdisplayfeedback.html', context)

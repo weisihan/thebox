@@ -36,6 +36,8 @@ urlpatterns = [
     path('studenthome/studentcancelthebox/',views.studentcancelthebox,name='studentcancelthebox'),
     path('studenthome/studentfeedback/', views.studentfeedback, name='studentfeedback'),
     path('studenthome/logout/', views.logoutuser, name='logoutuser'),
+    path('studenthome/studentdisplayfeedback/', views.studentdisplayfeedback,
+         name='studentdisplayfeedback'),
     # STAFF
     path('stafflogin/', views.stafflogin, name='stafflogin'),
     path('staffhome/', views.staffhome, name='staffhome'),
